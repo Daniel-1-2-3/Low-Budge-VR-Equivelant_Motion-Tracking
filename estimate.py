@@ -137,7 +137,7 @@ class Estimate:
                 middle_to_palm / (middle_ref + 1e-6) < curl_threshold,
                 ring_to_palm   / (ring_ref   + 1e-6) < curl_threshold,
                 pinky_to_palm  / (pinky_ref  + 1e-6) < curl_threshold
-            ]
+            ] 
 
             # Fingertip compactness
             tips = [lm[4], lm[8], lm[12], lm[16], lm[20]]
