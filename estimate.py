@@ -8,8 +8,8 @@ import mediapipe as mp
 
 class Estimate:
     MARKER_SIZE_M = 0.03    
-    WIDTH = 1280
-    HEIGHT = 720
+    WIDTH = 1500
+    HEIGHT = 750
     
     def __init__(self):
         # Camera intrinsics 
@@ -54,6 +54,8 @@ class Estimate:
         self.track_coords = deque(maxlen=5)
         self.shooting = False
         self.shoot_cooldown = 0
+        
+        self.d_to_cam = 0
 
     def get_inplane_angle(self, rvec):
         """Return marker orientation about camera Z-axis in degrees [-180, 180]."""
@@ -243,7 +245,14 @@ class Estimate:
                 
                 # Angles and orientation
                 self.get_degree_in_game(rvec, tvec, frame, ok_pnp)
+                
+                # Distance to cam
+                self.d_to_cam = self.get_distance(c)
+                
+                # Angle
                 self.angle = self.get_inplane_angle(rvec)
+                
+                # Label aruco
                 xs, ys = c[:,0], c[:,1]; x1, y1, x2, y2 = map(int, [xs.min(), ys.min(), xs.max(), ys.max()])
                 tx, ty = int((x1+x2)/2), max(0, y1-6); txt = f"{self.angle:+.1f}°"
                 sz = cv2.getTextSize(txt, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)[0]
@@ -268,7 +277,7 @@ class Estimate:
                     self.reloading = self.detect_left_fist(frame, central_y)
                     if self.reloading: # Initiate cooldown
                         self.reload_cooldown = 30
-                    
+
         return frame
 
 if __name__ == "__main__":
@@ -279,7 +288,7 @@ if __name__ == "__main__":
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
     
     kernel = np.ones((5,5), np.uint8)
-    
+
     while True:
         _, frame = cap.read()
         frame = cv2.flip(frame, 1)
