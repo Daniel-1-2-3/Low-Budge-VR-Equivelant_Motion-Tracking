@@ -293,7 +293,7 @@ if __name__ == "__main__":
         # Shoot
         if estimator.shoot_cooldown > 0:
             estimator.shoot_cooldown -= 1
-        cv2.putText(frame, f'Shooting cooldown {estimator.shoot_cooldown}', (10, 90), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 0), 2, cv2.LINE_AA)
+        cv2.putText(frame, f'Shooting cooldown {estimator.shoot_cooldown}', (10, 110), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 0), 2, cv2.LINE_AA)
         
         cv2.imshow("Cam Feed", frame)
 
