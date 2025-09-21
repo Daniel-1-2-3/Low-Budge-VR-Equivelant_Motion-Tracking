@@ -88,7 +88,7 @@ class Estimate:
         self.d = (x / self.WIDTH * r - r / 2) * artistic
         arc_deg = x / self.WIDTH * 180 - 90
     
-        self.alpha, _ = self.viewer.update(r=0.4, d=self.d, arc_deg=arc_deg)
+        self.alpha, _ = self.viewer.update(r=0.4, d=self.d, arc_deg=arc_deg, track_coords=self.track_coords)
     
     def detect_left_fist(self, frame, aruco_central_y):
         """

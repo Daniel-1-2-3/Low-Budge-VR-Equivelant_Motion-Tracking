@@ -47,7 +47,7 @@ class Viewer:
         (self.y_last,) = self.ax_y.plot([], [], marker="o", lw=0, ms=8)  # highlight newest
         self._y_indices = np.arange(5)
 
-        self.show = True  # set True to make update() call pause()
+        self.show = False # set True to make update() call pause()
 
     @staticmethod
     def _end_angle_from_arc_deg(arc_deg):
