@@ -255,8 +255,12 @@ class Estimate:
                 self.track_coords.append((tx, central_y))
                 
                 # Shoot
-                self.shooting = self.is_shooting()
-                print(self.shooting)
+                if self.shooting:
+                    self.shooting = False
+                if self.shoot_cooldown == 0:
+                    self.shooting = self.is_shooting()
+                    if self.shooting:
+                        self.shoot_cooldown = 5
                 
                 if self.reloading:
                     self.reloading = False
@@ -284,8 +288,13 @@ if __name__ == "__main__":
         # Reload
         if estimator.reload_cooldown > 0:
             estimator.reload_cooldown -= 1
-            
         cv2.putText(frame, f'Reload cooldown {estimator.reload_cooldown}', (10, 60), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 0), 2, cv2.LINE_AA)
+        
+        # Shoot
+        if estimator.shoot_cooldown > 0:
+            estimator.shoot_cooldown -= 1
+        cv2.putText(frame, f'Shooting cooldown {estimator.shoot_cooldown}', (10, 90), cv2.FONT_HERSHEY_COMPLEX, 1.0, (0, 0, 0), 2, cv2.LINE_AA)
+        
         cv2.imshow("Cam Feed", frame)
 
         key = cv2.waitKey(1) & 0xFF
